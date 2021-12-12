@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -36,6 +37,9 @@ public class JwtBuilderImpl implements JwtBuilder {
 
     @Override
     public String encode(@NotNull Object payload, @NotNull Date expireAt) {
-        return encode(objectMapper.convertValue(payload, Map.class), expireAt);
+        Map<?, ?> map = objectMapper.convertValue(payload, Map.class);
+        Map<String, String> claims = new HashMap<>(map.size());
+        map.forEach((k, v) -> claims.put(k.toString(), v.toString()));
+        return encode(claims, expireAt);
     }
 }
