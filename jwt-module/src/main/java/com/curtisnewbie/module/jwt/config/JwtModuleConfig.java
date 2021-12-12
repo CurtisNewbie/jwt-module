@@ -1,5 +1,7 @@
 package com.curtisnewbie.module.jwt.config;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.Data;
 import org.springframework.beans.factory.InitializingBean;
@@ -45,6 +47,9 @@ public class JwtModuleConfig implements InitializingBean {
     /** Algorithm with keys loaded for JWT encoding, decoding and verification */
     private Algorithm algorithm = null;
 
+    /** Verifier of tokens */
+    private JWTVerifier verifier = null;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         Assert.isTrue(StringUtils.hasText(privateKey), "public key is null or empty");
@@ -52,8 +57,11 @@ public class JwtModuleConfig implements InitializingBean {
 
         // build Algorithm object
         algorithm = buildRsaAlgorithm(publicKey, privateKey);
+        // build JWTVerifier object
+        verifier = buildVerifier(algorithm, issuer);
 
         Assert.notNull(algorithm, "Failed to construct Algorithm for JWT, algorithm == null");
+        Assert.notNull(verifier, "verifier == null");
     }
 
     // ----------------------------------------- private helper methods
@@ -70,6 +78,13 @@ public class JwtModuleConfig implements InitializingBean {
         PrivateKey priKey = rsaKeyFac.generatePrivate(new X509EncodedKeySpec(priKeyBytes));
 
         return Algorithm.RSA256((RSAPublicKey) priKey, (RSAPrivateKey) pubKey);
+    }
+
+    /** Builder JWTVerifier */
+    private static final JWTVerifier buildVerifier(Algorithm algorithm, String issuer) {
+        return JWT.require(algorithm)
+                .withIssuer(issuer)
+                .build();
     }
 
 }
