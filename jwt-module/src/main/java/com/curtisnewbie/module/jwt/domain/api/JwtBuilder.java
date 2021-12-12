@@ -5,7 +5,6 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -21,19 +20,18 @@ public interface JwtBuilder {
     /**
      * Encode a JWT
      *
-     * @param payload  payload object
-     * @param expireAt when the JWT is expired
-     * @return JWT in string
-     */
-    String encode(@NotNull Object payload, @NotNull LocalDateTime expireAt);
-
-    /**
-     * Encode a JWT
-     *
-     * @param claims   key-value pairs in payload
+     * @param claims   key-value pairs
      * @param expireAt when the JWT is expired
      * @return JWT in string
      */
     String encode(@NotEmpty Map<String, String> claims, @NotNull LocalDateTime expireAt);
 
+    /**
+     * Encode a JWT
+     *
+     * @param payload  payload object stored in claim "json_payload"
+     * @param expireAt when the JWT is expired
+     * @return JWT in string
+     */
+    String encode(@NotNull Object payload, @NotNull LocalDateTime expireAt);
 }
