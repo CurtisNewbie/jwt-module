@@ -17,6 +17,7 @@ import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
@@ -32,7 +33,7 @@ import java.util.Base64;
  */
 @Data
 @Configuration
-@ConfigurationProperties("jwt-module")
+@ConfigurationProperties(prefix = "jwt-module")
 public class JwtModuleConfig implements InitializingBean {
 
     /** issuer */
@@ -74,10 +75,10 @@ public class JwtModuleConfig implements InitializingBean {
         final byte[] priKeyBytes = Base64.getDecoder().decode(encodedPriKey);
         KeyFactory rsaKeyFac = KeyFactory.getInstance("RSA");
 
-        PublicKey pubKey = rsaKeyFac.generatePublic(new X509EncodedKeySpec(pubKeyBytes));
-        PrivateKey priKey = rsaKeyFac.generatePrivate(new X509EncodedKeySpec(priKeyBytes));
+        RSAPublicKey pubKey = (RSAPublicKey) rsaKeyFac.generatePublic(new X509EncodedKeySpec(pubKeyBytes));
+        RSAPrivateKey priKey = (RSAPrivateKey) rsaKeyFac.generatePrivate(new PKCS8EncodedKeySpec(priKeyBytes));
 
-        return Algorithm.RSA256((RSAPublicKey) priKey, (RSAPrivateKey) pubKey);
+        return Algorithm.RSA256(pubKey, priKey);
     }
 
     /** Builder JWTVerifier */

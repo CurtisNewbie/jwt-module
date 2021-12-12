@@ -7,6 +7,8 @@ import com.curtisnewbie.module.jwt.domain.api.JwtDecoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * @author yongjie.zhuang
  */
@@ -17,7 +19,7 @@ public class JwtDecoderImpl implements JwtDecoder {
     private JwtModuleConfig config;
 
     @Override
-    public DecodedJWT decode(String jwt) throws JWTVerificationException {
+    public DecodedJWT decode(@NotBlank String jwt) throws JWTVerificationException {
         return config.getVerifier().verify(jwt);
     }
 }
