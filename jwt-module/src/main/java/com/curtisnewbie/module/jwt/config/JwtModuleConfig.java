@@ -43,7 +43,7 @@ public class JwtModuleConfig implements InitializingBean {
     private String publicKey;
 
     /** Algorithm with keys loaded for JWT encoding, decoding and verification */
-    private Algorithm algorithm;
+    private Algorithm algorithm = null;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -52,6 +52,8 @@ public class JwtModuleConfig implements InitializingBean {
 
         // build Algorithm object
         algorithm = buildRsaAlgorithm(publicKey, privateKey);
+
+        Assert.notNull(algorithm, "Failed to construct Algorithm for JWT, algorithm == null");
     }
 
     // ----------------------------------------- private helper methods
