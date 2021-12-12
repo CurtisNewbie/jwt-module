@@ -41,9 +41,7 @@ public class JwtBuilderTest {
                 .age(AGE)
                 .build();
 
-        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
-
-        String jwt = jwtBuilder.encode(dummy, Date.from(tomorrow.atZone(ZoneOffset.systemDefault()).toInstant()));
+        String jwt = jwtBuilder.encode(dummy, LocalDateTime.now().plusDays(1));
         Assertions.assertTrue(StringUtils.hasText(jwt), "jwt is empty");
         log.info("jwt: {}", jwt);
 
@@ -63,7 +61,7 @@ public class JwtBuilderTest {
         // token expired already
         LocalDateTime tomorrow = LocalDateTime.now().minusDays(1);
 
-        String jwt = jwtBuilder.encode(dummy, Date.from(tomorrow.atZone(ZoneOffset.systemDefault()).toInstant()));
+        String jwt = jwtBuilder.encode(dummy, tomorrow);
         Assertions.assertTrue(StringUtils.hasText(jwt), "jwt is empty");
         log.info("jwt: {}", jwt);
 
