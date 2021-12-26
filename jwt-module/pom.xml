@@ -18,6 +18,7 @@
 
   <properties>
     <java.version>8</java.version>
+    <common-module.version>2.0.3-SNAPSHOT</common-module.version>
   </properties>
 
   <dependencies>
@@ -46,16 +47,7 @@
     <dependency>
       <groupId>com.curtisnewbie</groupId>
       <artifactId>common-module</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>com.baomidou</groupId>
-          <artifactId>mybatis-plus-boot-starter</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.github.pagehelper</groupId>
-          <artifactId>pagehelper</artifactId>
-        </exclusion>
-      </exclusions>
+      <version>${common-module.version}</version>
     </dependency>
 
   </dependencies>
