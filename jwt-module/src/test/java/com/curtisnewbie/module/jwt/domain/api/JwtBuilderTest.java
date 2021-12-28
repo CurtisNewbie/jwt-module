@@ -3,6 +3,7 @@ package com.curtisnewbie.module.jwt.domain.api;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.curtisnewbie.module.jwt.TestBootstrapHelper;
+import com.curtisnewbie.module.jwt.vo.DecodeResult;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,9 @@ public class JwtBuilderTest {
         Assertions.assertTrue(StringUtils.hasText(jwt), "jwt is empty");
         log.info("jwt: {}", jwt);
 
-        DecodedJWT decoded = jwtDecoder.decode(jwt);
+        DecodeResult result = jwtDecoder.decode(jwt);
+        Assertions.assertTrue(result.isValid());
+        DecodedJWT decoded = result.getDecodedJWT();
         Assertions.assertNotNull(decoded, "DecodedJWT == null");
         log.info("decoded: {}", decoded);
         log.info("claims: {}", decoded.getClaims());
@@ -67,7 +70,7 @@ public class JwtBuilderTest {
         Assertions.assertTrue(StringUtils.hasText(jwt), "jwt is empty");
         log.info("jwt: {}", jwt);
 
-        Assertions.assertThrows(TokenExpiredException.class, () -> jwtDecoder.decode(jwt), "Failed to validate 'exp' claim");
+        Assertions.assertTrue(jwtDecoder.decode(jwt).isExpired(), "Failed to validate 'exp' claim");
     }
 
     @Builder

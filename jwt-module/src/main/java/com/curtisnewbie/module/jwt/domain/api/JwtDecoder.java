@@ -2,6 +2,7 @@ package com.curtisnewbie.module.jwt.domain.api;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.curtisnewbie.module.jwt.vo.DecodeResult;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
@@ -18,9 +19,7 @@ public interface JwtDecoder {
 
     /**
      * Decode JWT
-     *
-     * @throws JWTVerificationException if token is invalid
      */
-    DecodedJWT decode(@NotBlank String jwt) throws JWTVerificationException;
+    DecodeResult decode(@NotBlank String jwt);
 
 }
