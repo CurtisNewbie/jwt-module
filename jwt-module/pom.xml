@@ -12,7 +12,7 @@
 
   <groupId>com.curtisnewbie</groupId>
   <artifactId>jwt-module</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>jwt-module</name>
   <description></description>
 
