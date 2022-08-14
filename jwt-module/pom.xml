@@ -18,7 +18,7 @@
 
   <properties>
     <java.version>8</java.version>
-    <common-module.version>2.0.3-SNAPSHOT</common-module.version>
+    <common-module.version>2.1.5</common-module.version>
   </properties>
 
   <dependencies>
